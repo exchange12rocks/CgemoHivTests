@@ -1,0 +1,64 @@
+﻿@model IEnumerable<CgemoHivTests.BusinessLogic.DTO.UserDTO>
+
+@{ int i = 0; }
+
+@if (TempData["result"] != null)
+{
+    @Html.Hidden("result", TempData["result"].ToString())
+}
+   
+<table id="tableUsers" class="table table-hover table-bordered table-condensed">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayName("№")
+            </th>          
+            <th>
+                @Html.DisplayNameFor(model => model.LoweredUserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LoweredEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreateDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsApproved)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsLockedOut)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            i++;
+            <tr style="cursor: pointer">
+                <td>
+                    @*@Html.Hidden("UserName", item.UserName)*@                  
+                    <b>@i</b>
+                </td>
+                <td onclick="Edit('@item.UserName')">
+                    @Html.DisplayFor(modelItem => item.LoweredUserName)
+                </td>
+                <td onclick="Edit('@item.UserName')">
+                    @Html.DisplayFor(modelItem => item.LoweredEmail)
+                </td>
+                <td onclick="Edit('@item.UserName')">
+                    @Html.DisplayFor(modelItem => item.CreateDate)
+                </td>
+                <td onclick="Edit('@item.UserName')">
+                    @Html.DisplayFor(modelItem => item.IsApproved)
+                </td>
+                <td onclick="Edit('@item.UserName')">
+                    @Html.DisplayFor(modelItem => item.IsLockedOut)
+                </td>
+                <td>
+                    @Ajax.ActionLink("Удалить", "Delete", new { userName = item.UserName }, new AjaxOptions { UpdateTargetId = "ContentList", Confirm = "Вы действительно хотите удалить пользователя?", OnSuccess = "OnDeleteSuccess" }, new { @class = "btn btn-xs btn-danger" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

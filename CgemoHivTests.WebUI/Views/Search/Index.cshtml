@@ -1,0 +1,113 @@
+﻿@model CgemoHivTests.WebUI.Models.SearchModel
+
+@{
+    ViewBag.Title = "Search";
+}
+
+<h2>Поиск</h2>
+
+@*@using (Ajax.BeginForm("Search", new AjaxOptions { OnSuccess = "OnSearchSuccess" }))*@
+@using (Html.BeginForm("Search", "Search", "POST"))
+{
+    @Html.AntiForgeryToken()
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.FullName, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.FullName, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.DateOfBirth, htmlAttributes: new { @class = "control-label" })
+                        <div class="input-group date" id="DateOfBirthPicker">
+                            @Html.EditorFor(model => model.DateOfBirth, new { htmlAttributes = new { @class = "form-control" } })
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PassportNumber, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.PassportNumber, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.PassportDate, htmlAttributes: new { @class = "control-label" })
+                        <div class="input-group date" id="PassportDatePicker">
+                            @Html.EditorFor(model => model.PassportDate, new { htmlAttributes = new { @class = "form-control" } })
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Country, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.Country, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>             
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CertNumber, htmlAttributes: new { @class = "control-label" })
+                        @Html.EditorFor(model => model.CertNumber, new { htmlAttributes = new { @class = "form-control" } })
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CertDate, htmlAttributes: new { @class = "control-label" })
+                        <div class="input-group date" id="CertDatePicker">
+                            @Html.EditorFor(model => model.CertDate, new { htmlAttributes = new { @class = "form-control" } })
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>             
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.AnalysisDate, htmlAttributes: new { @class = "control-label" })
+                        <div class="input-group date" id="AnalysisDatePicker">
+                            @Html.EditorFor(model => model.AnalysisDate, new { htmlAttributes = new { @class = "form-control" } })
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <div class="form-group">
+                <button type="submit" id="search" class="btn btn-primary">Найти</button>
+            </div>                   
+        </div>       
+    </div>
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(function () {
+            $.ajaxSetup({ cache: false });
+            $('#DateOfBirthPicker').datetimepicker({ pickTime: false, language: 'ru' });
+            $('#PassportDatePicker').datetimepicker({ pickTime: false, language: 'ru' });
+            $('#CertDatePicker').datetimepicker({ pickTime: false, language: 'ru' });
+            $('#AnalysisDatePicker').datetimepicker({ pickTime: false, language: 'ru' });
+        })
+
+    </script>
+}
+

@@ -1,0 +1,17 @@
+C:\Проекты\CgemoHivTests\CgemoHivTests.BusinessLogic\bin\Debug\AutoMapper.Net4.dll
+C:\Проекты\CgemoHivTests\CgemoHivTests.BusinessLogic\bin\Debug\CgemoHivTests.BusinessLogic.dll
+C:\Проекты\CgemoHivTests\CgemoHivTests.BusinessLogic\bin\Debug\CgemoHivTests.BusinessLogic.pdb
+C:\Проекты\CgemoHivTests\CgemoHivTests.BusinessLogic\bin\Debug\AutoMapper.dll
+C:\Проекты\CgemoHivTests\CgemoHivTests.BusinessLogic\bin\Debug\CgemoHivTests.DataAccess.dll
+C:\Проекты\CgemoHivTests\CgemoHivTests.BusinessLogic\bin\Debug\Ninject.dll
+C:\Проекты\CgemoHivTests\CgemoHivTests.BusinessLogic\bin\Debug\EntityFramework.dll
+C:\Проекты\CgemoHivTests\CgemoHivTests.BusinessLogic\bin\Debug\CgemoHivTests.DataAccess.pdb
+C:\Проекты\CgemoHivTests\CgemoHivTests.BusinessLogic\bin\Debug\AutoMapper.pdb
+C:\Проекты\CgemoHivTests\CgemoHivTests.BusinessLogic\bin\Debug\AutoMapper.xml
+C:\Проекты\CgemoHivTests\CgemoHivTests.BusinessLogic\bin\Debug\AutoMapper.Net4.pdb
+C:\Проекты\CgemoHivTests\CgemoHivTests.BusinessLogic\bin\Debug\Ninject.xml
+C:\Проекты\CgemoHivTests\CgemoHivTests.BusinessLogic\bin\Debug\EntityFramework.xml
+C:\Проекты\CgemoHivTests\CgemoHivTests.BusinessLogic\bin\Debug\ru\EntityFramework.resources.dll
+C:\Проекты\CgemoHivTests\CgemoHivTests.BusinessLogic\obj\Debug\CgemoHivTests.BusinessLogic.csprojResolveAssemblyReference.cache
+C:\Проекты\CgemoHivTests\CgemoHivTests.BusinessLogic\obj\Debug\CgemoHivTests.BusinessLogic.dll
+C:\Проекты\CgemoHivTests\CgemoHivTests.BusinessLogic\obj\Debug\CgemoHivTests.BusinessLogic.pdb

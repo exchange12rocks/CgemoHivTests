@@ -1,0 +1,165 @@
+﻿@model IEnumerable<CgemoHivTests.BusinessLogic.DTO.UserDTO>
+
+@{
+    ViewBag.Title = "Users";    
+}
+
+<div id="modDialog" class="modal fade" data-backdrop="static">
+    <div id="dialogContent" class="modal-dialog">       
+    </div>
+</div>
+<div id="modChangePassword" class="modal fade" data-backdrop="static">
+    <div id="contentChangePassword" class="modal-dialog modal-sm">
+    </div>
+</div>
+
+<h2 class="page-header">Пользователи</h2>
+<nav class="navbar navbar-default">
+   <div class = "navbar-form navbar-left">
+       <button id="addUser" type="button" class="btn btn-default">
+           <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Добавить
+       </button>
+    </div>
+</nav>
+
+<div id="ContentList">@{Html.RenderAction("GetUsers");}</div>
+
+@section message
+{
+    <div id="messageBox"></div>  
+}
+
+@section scripts
+{
+    <script type="text/javascript">       
+        $(function () {
+            $.ajaxSetup({ cache: false });
+            $("#addUser").on("click", function () {
+                Edit();
+            });
+        })
+        function Edit(userName) {                    
+            $.ajax({
+                url: '/Account/Edit',
+                type: "POST",
+                data: (userName) ? { 'userName' : userName } : null,
+                success: function (data) {              
+                    $('#dialogContent').html(data);
+                    $('#modDialog').modal('show');
+                    SetValidationUserForm();
+                }
+            });
+        }
+        function ChangePassword(userName) {
+            $.ajax({
+                url: '/Account/ChangePassword',
+                type: "POST",
+                data: { 'userName': userName },
+                success: function (data) {
+                    $('#contentChangePassword').html(data);
+                    $('#modChangePassword').modal('show');
+                    SetValidationChangePasswordForm();
+                }
+            });
+        }
+        function SetValidationUserForm()
+        {
+            //При вводе имени пользователя проверяем в режиме онлайн наличие пользователя с таким же именем
+            $("#UserName").on("input", function () {
+                $.ajax({
+                    url: '/Account/CheckUserName',
+                    data: { 'UserName': $(this).val() },
+                    type: 'POST',
+                    success: function (data) {
+                        var element = document.getElementById("UserName");
+                        if (data === 'False') {
+                            element.setCustomValidity("Пользователь с таким именем уже существует");
+                            ShowMessage("formMessageBox",
+                                JSON.stringify({ "ResultId": "0", "Message": "Пользователь с таким именем уже существует" }),
+                                false);                           
+                        }
+                        else {
+                            element.setCustomValidity("");
+                            $("#formMessageBox").hide();
+                        }
+                        checkValidityElement(element);
+                    }
+                });
+            });
+            //Устанавливаем валидацию элементов ввода пароля
+            SetOnlineValidationPasswordGroup();
+            //при нажатии на кнопку с id="save"
+            $('#save').on("click", function () {
+                //перебрать все элементы управления input
+                $('input').each(function () {
+                    checkValidityElement(this);                   
+                });
+                $("#formMessageBox").hide();
+            });           
+        }
+        function SetValidationChangePasswordForm() {
+            SetOnlineValidationPasswordGroup();
+            //при нажатии на кнопку с id="savePassword"
+            $('#savePassword').on("click", function () {
+                //перебрать все элементы управления input
+                $('.password-group').each(function () {
+                    checkValidityElement(this);
+                });
+            });           
+        }
+        //Функция проверки валидности группы элементов ввода пароля
+        function SetOnlineValidationPasswordGroup() {
+            //При вводе пароля проверяем в режиме онлайн его совпадение с повторным паролем если он уже введен
+            $("#Password").on("input", function () {
+                var confirmPassword = document.getElementById("ConfirmPassword");
+                if (confirmPassword.value != "")
+                    checkValidityPasswordElements(this, confirmPassword);
+            });
+            //При повторном вводе пароля проверяем в режиме онлайн его совпадение с основным паролем
+            $("#ConfirmPassword").on("input", function () {
+                checkValidityPasswordElements(document.getElementById("Password"), this);
+            });
+            //Проверка элементов на валидность и установка соответствующих классов элементам
+            function checkValidityPasswordElements(password, confirmPassword) {
+                var passwordsMatch = $(password).val() === $(confirmPassword).val();
+                if (passwordsMatch) {
+                    confirmPassword.setCustomValidity("");
+                    Password.setCustomValidity("");
+                }
+                else {
+                    confirmPassword.setCustomValidity("Пароли не совпадают");
+                    Password.setCustomValidity("Пароли не совпадают");
+                }
+                checkValidityElement(password);
+                checkValidityElement(confirmPassword);
+            }
+        }
+        function OnSaveSuccess(data, textStatus, jqXHR) {
+            var isValid = jqXHR.getResponseHeader("IsValid");
+            if (isValid === "True") {
+                $('#ContentList').html(data);
+                $('#modDialog').modal('hide');
+                ShowMessage("messageBox", $("#result").val(), true);               
+            }
+            else if (isValid === "False") {
+                $('#dialogContent').html(data);
+                SetValidationUserForm();
+            }
+        }
+        function OnChangePasswordSuccess(data, textStatus, jqXHR) {
+            var isValid = jqXHR.getResponseHeader("IsValid");
+            if (isValid === "True") {
+            $('#dialogContent').html(data);
+            $('#modChangePassword').modal('hide');
+            ShowMessage("messageBox2", $("#resultChangePassword").val(), true);
+            }
+            else if (isValid === "False") {
+                $('#contentChangePassword').html(data);
+                SetValidationChangePasswordForm();
+            }
+        }
+        function OnDeleteSuccess() {
+            ShowMessage("messageBox", $("#result").val(), true);
+        }
+    </script>
+}

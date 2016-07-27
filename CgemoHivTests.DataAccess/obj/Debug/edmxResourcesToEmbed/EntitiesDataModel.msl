@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Хранилище CgemoHivTestsDataAccessModelContainer" CdmEntityContainer="CgemoHivTestsEntities">
+    <EntitySetMapping Name="Declarants">
+      <EntityTypeMapping TypeName="CgemoHivTests.DataAccess.Model.Declarant">
+        <MappingFragment StoreEntitySet="Declarants">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Persons">
+      <EntityTypeMapping TypeName="CgemoHivTests.DataAccess.Model.PersonAnalysis">
+        <MappingFragment StoreEntitySet="Persons">
+          <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
+          <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+          <ScalarProperty Name="PassportNumber" ColumnName="PassportNumber" />
+          <ScalarProperty Name="PassportDateOfIssue" ColumnName="PassportDateOfIssue" />
+          <ScalarProperty Name="Country" ColumnName="Country" />
+        </MappingFragment>
+        <MappingFragment StoreEntitySet="Analyses">
+          <ScalarProperty Name="AnalysisResult" ColumnName="AnalysisResult" />
+          <ScalarProperty Name="AnalysisDate" ColumnName="AnalysisDate" />
+          <ScalarProperty Name="CertDateOfIssue" ColumnName="CertDateOfIssue" />
+          <ScalarProperty Name="CertNumber" ColumnName="CertNumber" />
+          <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ResponsesToDeclarants">
+      <EntityTypeMapping TypeName="CgemoHivTests.DataAccess.Model.ResponsesToDeclarant">
+        <MappingFragment StoreEntitySet="ResponsesToDeclarant">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ResponseNumber" ColumnName="ResponseNumber" />
+          <ScalarProperty Name="ResponseDate" ColumnName="ResponseDate" />
+          <ScalarProperty Name="RequestNumber" ColumnName="RequestNumber" />
+          <ScalarProperty Name="RequestDate" ColumnName="RequestDate" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="DeclarantId" ColumnName="DeclarantId" />
+          <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="CgemoHivTests.DataAccess.Model.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="LoweredEmail" ColumnName="LoweredEmail" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="LoweredUserName" ColumnName="LoweredUserName" />
+        </MappingFragment>
+        <MappingFragment StoreEntitySet="Membership">
+          <ScalarProperty Name="FailedPasswordAttemptCount" ColumnName="FailedPasswordAttemptCount" />
+          <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+          <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          <ScalarProperty Name="IsLockedOut" ColumnName="IsLockedOut" />
+          <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UpdateLogs">
+      <EntityTypeMapping TypeName="CgemoHivTests.DataAccess.Model.UpdateLog">
+        <MappingFragment StoreEntitySet="UpdateLogs">
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="TotalRecords" ColumnName="TotalRecords" />
+          <ScalarProperty Name="DateEnd" ColumnName="DateEnd" />
+          <ScalarProperty Name="DateFirst" ColumnName="DateFirst" />
+          <ScalarProperty Name="DateUpdate" ColumnName="DateUpdate" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

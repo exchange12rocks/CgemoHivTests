@@ -1,0 +1,12 @@
+C:\Проекты\CgemoHivTests\CgemoHivTests.DataAccess\bin\Debug\CgemoHivTests.DataAccess.dll.config
+C:\Проекты\CgemoHivTests\CgemoHivTests.DataAccess\bin\Debug\CgemoHivTests.DataAccess.dll
+C:\Проекты\CgemoHivTests\CgemoHivTests.DataAccess\bin\Debug\CgemoHivTests.DataAccess.pdb
+C:\Проекты\CgemoHivTests\CgemoHivTests.DataAccess\bin\Debug\EntityFramework.dll
+C:\Проекты\CgemoHivTests\CgemoHivTests.DataAccess\bin\Debug\EntityFramework.SqlServer.dll
+C:\Проекты\CgemoHivTests\CgemoHivTests.DataAccess\bin\Debug\EntityFramework.xml
+C:\Проекты\CgemoHivTests\CgemoHivTests.DataAccess\bin\Debug\EntityFramework.SqlServer.xml
+C:\Проекты\CgemoHivTests\CgemoHivTests.DataAccess\obj\Debug\CgemoHivTests.DataAccess.dll
+C:\Проекты\CgemoHivTests\CgemoHivTests.DataAccess\obj\Debug\CgemoHivTests.DataAccess.pdb
+C:\Проекты\CgemoHivTests\CgemoHivTests.DataAccess\bin\Debug\ru\EntityFramework.resources.dll
+C:\Проекты\CgemoHivTests\CgemoHivTests.DataAccess\bin\Debug\ru\EntityFramework.SqlServer.resources.dll
+C:\Проекты\CgemoHivTests\CgemoHivTests.DataAccess\obj\Debug\CgemoHivTests.DataAccess.csprojResolveAssemblyReference.cache

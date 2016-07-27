@@ -1,0 +1,441 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище CgemoHivTests.DataAccess.Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Analyses">
+          <Key>
+            <PropertyRef Name="PersonId" />
+          </Key>
+          <Property Name="PersonId" Type="int" Nullable="false" />
+          <Property Name="CertNumber" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="CertDateOfIssue" Type="date" Nullable="false" />
+          <Property Name="AnalysisDate" Type="date" Nullable="false" />
+          <Property Name="AnalysisResult" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Declarants">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Address" Type="nvarchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Membership">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="IsApproved" Type="bit" Nullable="false" />
+          <Property Name="IsLockedOut" Type="bit" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="LastLoginDate" Type="datetime" Nullable="false" />
+          <Property Name="FailedPasswordAttemptCount" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Persons">
+          <Key>
+            <PropertyRef Name="PersonId" />
+          </Key>
+          <Property Name="PersonId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FullName" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="DateOfBirth" Type="date" Nullable="false" />
+          <Property Name="PassportNumber" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="PassportDateOfIssue" Type="date" />
+          <Property Name="Country" Type="nvarchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="ResponsesToDeclarant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ResponseNumber" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="ResponseDate" Type="datetime" Nullable="false" />
+          <Property Name="RequestNumber" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="RequestDate" Type="datetime" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DeclarantId" Type="int" Nullable="false" />
+          <Property Name="PersonId" Type="int" />
+        </EntityType>
+        <EntityType Name="UpdateLogs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DateUpdate" Type="datetime" Nullable="false" />
+          <Property Name="DateFirst" Type="datetime" Nullable="false" />
+          <Property Name="DateEnd" Type="datetime" Nullable="false" />
+          <Property Name="TotalRecords" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="LoweredUserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="LoweredEmail" Type="nvarchar" MaxLength="256" />
+        </EntityType>
+        <Association Name="FK_Analysis_Person">
+          <End Role="Persons" Type="Self.Persons" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Analyses" Type="Self.Analyses" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Persons">
+              <PropertyRef Name="PersonId" />
+            </Principal>
+            <Dependent Role="Analyses">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Declarant_ResponseToDeclarant">
+          <End Role="Declarants" Type="Self.Declarants" Multiplicity="1" />
+          <End Role="ResponsesToDeclarant" Type="Self.ResponsesToDeclarant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Declarants">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResponsesToDeclarant">
+              <PropertyRef Name="DeclarantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Membership_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Membership" Type="Self.Membership" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="Membership">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ResponsesToDeclarant_Persons">
+          <End Role="Persons" Type="Self.Persons" Multiplicity="0..1" />
+          <End Role="ResponsesToDeclarant" Type="Self.ResponsesToDeclarant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persons">
+              <PropertyRef Name="PersonId" />
+            </Principal>
+            <Dependent Role="ResponsesToDeclarant">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UpdateLogs_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="UpdateLogs" Type="Self.UpdateLogs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UpdateLogs">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_ResponseToDeclarant">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="ResponsesToDeclarant" Type="Self.ResponsesToDeclarant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="ResponsesToDeclarant">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище CgemoHivTestsDataAccessModelContainer">
+          <EntitySet Name="Analyses" EntityType="Self.Analyses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Declarants" EntityType="Self.Declarants" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Membership" EntityType="Self.Membership" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Persons" EntityType="Self.Persons" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ResponsesToDeclarant" EntityType="Self.ResponsesToDeclarant" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UpdateLogs" EntityType="Self.UpdateLogs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Analysis_Person" Association="Self.FK_Analysis_Person">
+            <End Role="Persons" EntitySet="Persons" />
+            <End Role="Analyses" EntitySet="Analyses" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Declarant_ResponseToDeclarant" Association="Self.FK_Declarant_ResponseToDeclarant">
+            <End Role="Declarants" EntitySet="Declarants" />
+            <End Role="ResponsesToDeclarant" EntitySet="ResponsesToDeclarant" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Membership_Users" Association="Self.FK_Membership_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Membership" EntitySet="Membership" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ResponsesToDeclarant_Persons" Association="Self.FK_ResponsesToDeclarant_Persons">
+            <End Role="Persons" EntitySet="Persons" />
+            <End Role="ResponsesToDeclarant" EntitySet="ResponsesToDeclarant" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UpdateLogs_Users" Association="Self.FK_UpdateLogs_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="UpdateLogs" EntitySet="UpdateLogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_ResponseToDeclarant" Association="Self.FK_User_ResponseToDeclarant">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ResponsesToDeclarant" EntitySet="ResponsesToDeclarant" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CgemoHivTests.DataAccess.Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Declarant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ResponsesToDeclarants" Relationship="Self.FK_Declarant_ResponseToDeclarant" FromRole="Declarants" ToRole="ResponsesToDeclarant" />
+        </EntityType>
+        <EntityType Name="PersonAnalysis">
+          <Key>
+            <PropertyRef Name="PersonId" />
+          </Key>
+          <Property Name="PersonId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DateOfBirth" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="PassportNumber" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PassportDateOfIssue" Type="DateTime" Precision="0" />
+          <Property Name="Country" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ResponsesToDeclarants" Relationship="Self.FK_ResponsesToDeclarant_Persons" FromRole="Persons" ToRole="ResponsesToDeclarant" />
+          <Property Name="CertNumber" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="CertDateOfIssue" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="AnalysisDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="AnalysisResult" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ResponsesToDeclarant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ResponseNumber" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ResponseDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="RequestNumber" Type="String" MaxLength="250" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="RequestDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="DeclarantId" Type="Int32" Nullable="false" />
+          <Property Name="PersonId" Type="Int32" />
+          <NavigationProperty Name="Declarant" Relationship="Self.FK_Declarant_ResponseToDeclarant" FromRole="ResponsesToDeclarant" ToRole="Declarants" />
+          <NavigationProperty Name="Person" Relationship="Self.FK_ResponsesToDeclarant_Persons" FromRole="ResponsesToDeclarant" ToRole="Persons" />
+          <NavigationProperty Name="User" Relationship="Self.FK_User_ResponseToDeclarant" FromRole="ResponsesToDeclarant" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LoweredUserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ResponsesToDeclarants" Relationship="Self.FK_User_ResponseToDeclarant" FromRole="Users" ToRole="ResponsesToDeclarant" />
+          <NavigationProperty Name="UpdateLogs" Relationship="CgemoHivTests.DataAccess.Model.FK_UpdateLogs_Users" FromRole="User" ToRole="UpdateLog" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="LoweredEmail" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="IsApproved" Type="Boolean" Nullable="false" />
+          <Property Name="IsLockedOut" Type="Boolean" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastLoginDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FailedPasswordAttemptCount" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Declarant_ResponseToDeclarant">
+          <End Role="Declarants" Type="Self.Declarant" Multiplicity="1" />
+          <End Role="ResponsesToDeclarant" Type="Self.ResponsesToDeclarant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Declarants">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ResponsesToDeclarant">
+              <PropertyRef Name="DeclarantId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ResponsesToDeclarant_Persons">
+          <End Role="Persons" Type="CgemoHivTests.DataAccess.Model.PersonAnalysis" Multiplicity="0..1" />
+          <End Role="ResponsesToDeclarant" Type="Self.ResponsesToDeclarant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Persons">
+              <PropertyRef Name="PersonId" />
+            </Principal>
+            <Dependent Role="ResponsesToDeclarant">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_ResponseToDeclarant">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="ResponsesToDeclarant" Type="Self.ResponsesToDeclarant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="ResponsesToDeclarant">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CgemoHivTestsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Declarants" EntityType="Self.Declarant" />
+          <EntitySet Name="Persons" EntityType="CgemoHivTests.DataAccess.Model.PersonAnalysis" />
+          <EntitySet Name="ResponsesToDeclarants" EntityType="Self.ResponsesToDeclarant" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK_Declarant_ResponseToDeclarant" Association="Self.FK_Declarant_ResponseToDeclarant">
+            <End Role="Declarants" EntitySet="Declarants" />
+            <End Role="ResponsesToDeclarant" EntitySet="ResponsesToDeclarants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ResponsesToDeclarant_Persons" Association="Self.FK_ResponsesToDeclarant_Persons">
+            <End Role="Persons" EntitySet="Persons" />
+            <End Role="ResponsesToDeclarant" EntitySet="ResponsesToDeclarants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_ResponseToDeclarant" Association="Self.FK_User_ResponseToDeclarant">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="ResponsesToDeclarant" EntitySet="ResponsesToDeclarants" />
+          </AssociationSet>
+          <EntitySet Name="UpdateLogs" EntityType="CgemoHivTests.DataAccess.Model.UpdateLog" />
+          <AssociationSet Name="FK_UpdateLogs_Users" Association="CgemoHivTests.DataAccess.Model.FK_UpdateLogs_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UpdateLog" EntitySet="UpdateLogs" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="UpdateLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateUpdate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateFirst" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="DateEnd" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TotalRecords" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="CgemoHivTests.DataAccess.Model.FK_UpdateLogs_Users" FromRole="UpdateLog" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_UpdateLogs_Users">
+          <End Type="CgemoHivTests.DataAccess.Model.User" Role="User" Multiplicity="1" />
+          <End Type="CgemoHivTests.DataAccess.Model.UpdateLog" Role="UpdateLog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UpdateLog">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище CgemoHivTestsDataAccessModelContainer" CdmEntityContainer="CgemoHivTestsEntities">
+          <EntitySetMapping Name="Declarants">
+            <EntityTypeMapping TypeName="CgemoHivTests.DataAccess.Model.Declarant">
+              <MappingFragment StoreEntitySet="Declarants">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Persons">
+            <EntityTypeMapping TypeName="CgemoHivTests.DataAccess.Model.PersonAnalysis">
+              <MappingFragment StoreEntitySet="Persons">
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="PassportNumber" ColumnName="PassportNumber" />
+                <ScalarProperty Name="PassportDateOfIssue" ColumnName="PassportDateOfIssue" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+              </MappingFragment>
+              <MappingFragment StoreEntitySet="Analyses">
+                <ScalarProperty Name="AnalysisResult" ColumnName="AnalysisResult" />
+                <ScalarProperty Name="AnalysisDate" ColumnName="AnalysisDate" />
+                <ScalarProperty Name="CertDateOfIssue" ColumnName="CertDateOfIssue" />
+                <ScalarProperty Name="CertNumber" ColumnName="CertNumber" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ResponsesToDeclarants">
+            <EntityTypeMapping TypeName="CgemoHivTests.DataAccess.Model.ResponsesToDeclarant">
+              <MappingFragment StoreEntitySet="ResponsesToDeclarant">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ResponseNumber" ColumnName="ResponseNumber" />
+                <ScalarProperty Name="ResponseDate" ColumnName="ResponseDate" />
+                <ScalarProperty Name="RequestNumber" ColumnName="RequestNumber" />
+                <ScalarProperty Name="RequestDate" ColumnName="RequestDate" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="DeclarantId" ColumnName="DeclarantId" />
+                <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="CgemoHivTests.DataAccess.Model.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="LoweredEmail" ColumnName="LoweredEmail" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="LoweredUserName" ColumnName="LoweredUserName" />
+                </MappingFragment>
+              <MappingFragment StoreEntitySet="Membership">
+                <ScalarProperty Name="FailedPasswordAttemptCount" ColumnName="FailedPasswordAttemptCount" />
+                <ScalarProperty Name="LastLoginDate" ColumnName="LastLoginDate" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="IsLockedOut" ColumnName="IsLockedOut" />
+                <ScalarProperty Name="IsApproved" ColumnName="IsApproved" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UpdateLogs">
+            <EntityTypeMapping TypeName="CgemoHivTests.DataAccess.Model.UpdateLog">
+              <MappingFragment StoreEntitySet="UpdateLogs">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="TotalRecords" ColumnName="TotalRecords" />
+                <ScalarProperty Name="DateEnd" ColumnName="DateEnd" />
+                <ScalarProperty Name="DateFirst" ColumnName="DateFirst" />
+                <ScalarProperty Name="DateUpdate" ColumnName="DateUpdate" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

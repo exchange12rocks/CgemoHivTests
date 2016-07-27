@@ -1,0 +1,47 @@
+﻿@using System.Web.Optimization
+@model CgemoHivTests.WebUI.Models.LoginModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    @Styles.Render("~/bundles/css")
+    <link href="~/Content/signin.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width" />
+    <title>Вход</title>
+</head>
+<body>
+    <div class="container">
+        @using (Html.BeginForm()) {
+        <div class="form-signin">
+            <h2 class="form-signin-heading">Пожалуйста авторизуйтесь</h2>
+            @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "sr-only" })
+            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control",
+                @placeholder = "Имя пользователя", @required = "required", @autofocus = "autofocus"} })
+            @*<label for="inputUserName" class="sr-only">Имя пользователя</label>*@
+            @*<input type="text" id="inputUserName" class="form-control" placeholder="Имя пользователя" required autofocus>*@
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "sr-only" })
+            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control",
+               @placeholder = "Пароль", @required = "required" } })
+            @*<label for="inputPassword" class="sr-only">Пароль</label>*@
+            @*<input type="password" id="inputPassword" class="form-control" placeholder="Пароль" required>*@
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="remember-me"> Запомнить меня
+                </label>
+            </div>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Вход</button>
+        </div>
+        }
+    </div>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryunob")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/script")
+</body>
+</html>

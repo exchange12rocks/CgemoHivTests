@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:complexType name="PersonType">
+    <xs:sequence>
+      <xs:element name="FullName" type="xs:string"/>
+      <xs:element name="DateOfBirth" type="xs:date" minOccurs="0"/>
+      <xs:element name="Country" type="xs:string" minOccurs="0"/>
+      <xs:element name="PassportNumber" type="xs:string"/>
+      <xs:element name="PassportDateOfIssue" type="xs:date" minOccurs="0"/>
+      <xs:element name="AnalysisDate" type="xs:date"/>
+      <xs:element name="AnalysisResult" type="xs:boolean"/>
+      <xs:element name="CertNumber" type="xs:string"/>
+      <xs:element name="CertDate" type="xs:date"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="HeaderType">
+    <xs:sequence>
+      <xs:element name="FirstDate" type="xs:date"/>
+      <xs:element name="EndDate" type="xs:date"/>
+      <xs:element name="Total" type="xs:nonNegativeInteger"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="Persons">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Header" type="HeaderType" minOccurs="1" maxOccurs="1"/>
+        <xs:element name="Person" type="PersonType" minOccurs="1" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
